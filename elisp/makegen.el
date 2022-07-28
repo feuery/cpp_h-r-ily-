@@ -26,7 +26,7 @@
 
 (defun gen-makefile-object-clause (cpp)
   (let ((fname (replace-in-string ".cpp" "" 
-				  (f-filename (first *cpps*)))))
+				  (f-filename cpp))))
     (format 
   "output/%s.o: src/%s.cpp
 	g++ -g -c src/%s.cpp -o output/%s.o"
@@ -35,7 +35,7 @@
 
 (defun gen-targets (cpp)
   (let ((fname (replace-in-string ".cpp" "" 
-				  (f-filename (first *cpps*)))))
+				  (f-filename cpp))))
     (format 
      "output/%s.o" fname)))
 
@@ -44,13 +44,13 @@
   (cl-multiple-value-bind (makefile-path makefile-dir) (search-makefile)
     (let ((cpps (remove-if (lambda (path)
 			     (or 
-			      (cl-search "#" (second *cpps*))
-			      (cl-search "~" (second *cpps*))))
+			      (cl-search "#" path)
+			      (cl-search "~" path)))
 			   (file-expand-wildcards (format "%s/src/*.cpp" makefile-dir))))
 	  (headers (remove-if (lambda (path)
 			     (or 
-			      (cl-search "#" (second *cpps*))
-			      (cl-search "~" (second *cpps*))))
+			      (cl-search "#" path)
+			      (cl-search "~" path)))
 			      (file-expand-wildcards (format "%s/src/*.h" makefile-dir)))))
       (setq *hs* headers)
       
