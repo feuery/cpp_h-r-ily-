@@ -1,6 +1,6 @@
-#include <iostream>
+#include "./main.h"
 
 int main(int argc, char** argv) {
-  std::cout << "lolz \n";
+  tee_tyhmaa("tyhmaaa"); 
   return 0;
 }

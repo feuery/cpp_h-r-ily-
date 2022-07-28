@@ -25,7 +25,6 @@
   (replace-regexp-in-string (regexp-quote what) with in nil 'literal))
 
 (defun gen-makefile-object-clause (cpp)
-  ;; replaceta fnamesta s/.cpp//
   (let ((fname (replace-in-string ".cpp" "" 
 				  (f-filename (first *cpps*)))))
     (format 
@@ -33,6 +32,12 @@
 	g++ -g -c src/%s.cpp -o output/%s.o"
   fname fname
   fname fname)))
+
+(defun gen-targets (cpp)
+  (let ((fname (replace-in-string ".cpp" "" 
+				  (f-filename (first *cpps*)))))
+    (format 
+     "output/%s.o" fname)))
 
 (defun regen-makefile ()
   (interactive)
@@ -47,13 +52,11 @@
 			      (cl-search "#" (second *cpps*))
 			      (cl-search "~" (second *cpps*))))
 			      (file-expand-wildcards (format "%s/src/*.h" makefile-dir)))))
-      (setq *makefile-dir* makefile-dir)
-      (setq *cpps* cpps)
       (setq *hs* headers)
       
     (with-temp-buffer
       (insert (format
-"targets := $(wildcard output/*.o)
+"targets := %s
 
 all: main
 
@@ -61,7 +64,8 @@ all: main
 
 main: $(targets)
 	g++ -o main $(targets)"
-(gen-makefile-object-clause cpps)))
+(mapconcat #'gen-targets cpps "")
+(mapconcat #'gen-makefile-object-clause cpps "")))
       (write-file makefile-path)))))
     
 

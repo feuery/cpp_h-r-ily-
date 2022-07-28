@@ -1,4 +1,4 @@
-targets := $(wildcard output/*.o)
+targets := output/main.o
 
 all: main
 
