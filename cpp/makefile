@@ -6,7 +6,7 @@ include config.mk
 all: main
 
 output/main.o:  src/lol.h src/main.h src/main.cpp
-	g++ -g -c src/main.cpp -o output/main.o
+	g++ -g $(cflags) -o output/main.o -c src/main.cpp
 
 main: $(targets)
-	g++ -o $(program_name) $(targets)
+	g++ -o $(program_name) $(libraries) $(targets)

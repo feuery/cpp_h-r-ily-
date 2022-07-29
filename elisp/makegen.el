@@ -55,7 +55,7 @@
 				  (f-filename cpp))))
     (format 
   "output/%s.o: %s src/%s.cpp
-	g++ -g -c src/%s.cpp -o output/%s.o"
+	g++ -g $(cflags) -o output/%s.o -c src/%s.cpp"
   fname
   (gen-headers headers cpp)
   fname
@@ -93,7 +93,7 @@ all: main
 %s
 
 main: $(targets)
-	g++ -o $(program_name) $(targets)"
+	g++ -o $(program_name) $(libraries) $(targets)"
 (mapconcat #'gen-targets cpps "")
 (mapconcat (apply-partially #'gen-makefile-object-clause headers) cpps "")))
       (write-file makefile-path)))))
