@@ -55,7 +55,7 @@
 				  (f-filename cpp))))
     (format 
   "output/%s.o: %s src/%s.cpp
-	$(CC) -g $(cflags) -o output/%s.o -c src/%s.cpp"
+	$(CC) -g $(cflags) -o output/%s.o -c src/%s.cpp\n\n"
   fname
   (gen-headers headers cpp)
   fname
@@ -65,7 +65,7 @@
   (let ((fname (replace-in-string ".cpp" "" 
 				  (f-filename cpp))))
     (format 
-     "output/%s.o" fname)))
+     " output/%s.o " fname)))
 
 (defun regen-makefile ()
   (interactive)
