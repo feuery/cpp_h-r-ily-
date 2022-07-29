@@ -6,7 +6,7 @@ include config.mk
 
 all: main
 
-output/main.o:  src/lol.h src/main.h src/main.cpp
+output/main.o:  src/main.h src/main.cpp
 	$(CC) -g $(cflags) -o output/main.o -c src/main.cpp
 
 main: $(targets)
